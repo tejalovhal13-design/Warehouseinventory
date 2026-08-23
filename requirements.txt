@@ -1,1 +1,4 @@
 Flask
+fastapi
+uvicorn
+jinja2
