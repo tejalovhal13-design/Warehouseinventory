@@ -2,3 +2,6 @@ Flask
 fastapi
 uvicorn
 jinja2
+Flask-WTF
+WTForms
+mysql-connector-python
