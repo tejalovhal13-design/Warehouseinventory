@@ -1,0 +1,786 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7fb;
+    color: #0f172a;
+}
+
+
+/* ===============================
+   MAIN CONTAINER
+================================ */
+
+.dashboard-container {
+    min-height: 100vh;
+    display: flex;
+}
+
+
+/* ===============================
+   SIDEBAR
+================================ */
+
+.sidebar {
+    width: 235px;
+    min-height: 100vh;
+
+    background: #101c3d;
+
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 22px 15px;
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+
+/* ===============================
+   BRAND
+================================ */
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 4px 10px 28px;
+}
+
+.brand-icon {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 10px;
+
+    background: #2563eb;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 19px;
+}
+
+.sidebar-brand h2 {
+    font-size: 17px;
+}
+
+.sidebar-brand p {
+    color: #94a3b8;
+
+    font-size: 9px;
+
+    margin-top: 3px;
+}
+
+
+/* ===============================
+   MENU
+================================ */
+
+.menu-section {
+    margin-bottom: 25px;
+}
+
+.menu-title {
+    font-size: 9px;
+
+    color: #64748b;
+
+    font-weight: 600;
+
+    padding: 0 12px;
+
+    margin-bottom: 9px;
+}
+
+
+.menu-item {
+    height: 43px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 0 12px;
+
+    margin-bottom: 4px;
+
+    border-radius: 7px;
+
+    color: #cbd5e1;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    transition: 0.2s;
+}
+
+.menu-item:hover {
+    background: rgba(255,255,255,0.08);
+
+    color: white;
+}
+
+.menu-item.active {
+    background: #2563eb;
+
+    color: white;
+}
+
+.menu-icon {
+    width: 18px;
+
+    text-align: center;
+
+    font-size: 13px;
+}
+
+
+/* ===============================
+   MANAGEMENT
+================================ */
+
+.management {
+    margin-top: 0;
+}
+
+
+/* ===============================
+   SIDEBAR BOTTOM
+================================ */
+
+.sidebar-bottom {
+    margin-top: auto;
+
+    border-top: 1px solid rgba(255,255,255,0.08);
+
+    padding-top: 15px;
+}
+
+.logout {
+    display: flex;
+
+    gap: 12px;
+
+    align-items: center;
+
+    padding: 11px 12px;
+
+    color: #cbd5e1;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    border-radius: 7px;
+}
+
+.logout:hover {
+    background: rgba(255,255,255,0.08);
+
+    color: white;
+}
+
+
+/* ===============================
+   MAIN CONTENT
+================================ */
+
+.main-content {
+    margin-left: 235px;
+
+    width: calc(100% - 235px);
+
+    min-height: 100vh;
+}
+
+
+/* ===============================
+   TOPBAR
+================================ */
+
+.topbar {
+    height: 75px;
+
+    background: white;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 32px;
+}
+
+
+/* ===============================
+   PROFILE
+================================ */
+
+.profile {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.profile-info {
+    display: flex;
+
+    flex-direction: column;
+
+    text-align: right;
+}
+
+.profile-info strong {
+    font-size: 12px;
+}
+
+.profile-info span {
+    font-size: 10px;
+
+    color: #94a3b8;
+
+    margin-top: 3px;
+}
+
+.profile-circle {
+    width: 36px;
+    height: 36px;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 600;
+
+    font-size: 13px;
+}
+
+
+/* ===============================
+   CONTENT
+================================ */
+
+.content {
+    padding: 30px;
+}
+
+
+/* ===============================
+   PAGE HEADING
+================================ */
+
+.page-heading {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+.page-heading h1 {
+    font-size: 25px;
+
+    margin-bottom: 7px;
+}
+
+.page-heading p {
+    font-size: 12px;
+
+    color: #94a3b8;
+}
+
+
+/* ===============================
+   ADD BUTTON
+================================ */
+
+.add-button {
+    background: #2563eb;
+
+    color: white;
+
+    padding: 10px 15px;
+
+    border-radius: 7px;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    display: inline-block;
+}
+
+.add-button:hover {
+    background: #1d4ed8;
+}
+
+
+/* ===============================
+   STATISTICS
+================================ */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 16px;
+
+    margin-bottom: 20px;
+}
+
+
+.stat-card {
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 2px 8px rgba(15,23,42,0.02);
+}
+
+
+.stat-title {
+    color: #94a3b8;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    margin-bottom: 7px;
+}
+
+.stat-card h2 {
+    font-size: 25px;
+
+    margin-bottom: 8px;
+}
+
+.positive {
+    color: #16a34a;
+
+    font-size: 9px;
+}
+
+.warning {
+    color: #d97706;
+
+    font-size: 9px;
+}
+
+.danger {
+    color: #ef4444;
+
+    font-size: 9px;
+}
+
+
+/* ===============================
+   PANELS
+================================ */
+
+.panel {
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 2px 8px rgba(15,23,42,0.02);
+}
+
+.inventory-panel {
+    width: 100%;
+}
+
+
+/* ===============================
+   PANEL HEADER
+================================ */
+
+.panel-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 20px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.panel-header h2 {
+    font-size: 15px;
+
+    margin-bottom: 4px;
+}
+
+.panel-header p {
+    color: #94a3b8;
+
+    font-size: 10px;
+}
+
+
+/* ===============================
+   SEARCH
+================================ */
+
+.search-box {
+    width: 200px;
+
+    padding: 9px 11px;
+
+    border: 1px solid #dce1ea;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    font-size: 10px;
+}
+
+.search-box:focus {
+    border-color: #2563eb;
+}
+
+
+/* ===============================
+   TABLE
+================================ */
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+thead {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+    text-align: left;
+
+    color: #94a3b8;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    padding: 10px 6px;
+}
+
+td {
+    padding: 12px 6px;
+
+    border-bottom: 1px solid #f1f5f9;
+
+    font-size: 10px;
+
+    color: #64748b;
+}
+
+td strong {
+    color: #334155;
+
+    font-weight: 600;
+
+    font-size: 10px;
+}
+
+
+/* ===============================
+   STATUS
+================================ */
+
+.status {
+    display: inline-block;
+
+    padding: 5px 9px;
+
+    border-radius: 15px;
+
+    font-size: 8px;
+
+    font-weight: 600;
+}
+
+.in-stock {
+    background: #dcfce7;
+
+    color: #15803d;
+}
+
+.low-stock {
+    background: #fef3c7;
+
+    color: #b45309;
+}
+
+.out-stock {
+    background: #fee2e2;
+
+    color: #dc2626;
+}
+
+
+/* ===============================
+   ACTION BUTTONS
+================================ */
+
+.action-buttons {
+    display: flex;
+
+    gap: 6px;
+}
+
+.edit-button,
+.delete-button {
+    padding: 6px 9px;
+
+    border-radius: 5px;
+
+    text-decoration: none;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    border: none;
+
+    cursor: pointer;
+}
+
+.edit-button {
+    background: #e8f0ff;
+
+    color: #2563eb;
+}
+
+.delete-button {
+    background: #fdeaea;
+
+    color: #d84b4b;
+}
+
+.edit-button:hover {
+    background: #dbe7ff;
+}
+
+.delete-button:hover {
+    background: #fbd5d5;
+}
+
+
+/* ===============================
+   ADD / EDIT PRODUCT FORM
+================================ */
+
+.add-product-panel {
+    padding: 20px;
+}
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 10px;
+
+    font-weight: 600;
+
+    color: #334155;
+
+    margin-bottom: 7px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+
+    padding: 10px 11px;
+
+    border: 1px solid #dce1ea;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    font-size: 10px;
+
+    background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #2563eb;
+}
+
+.form-buttons {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 25px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid #edf0f4;
+}
+
+.cancel-button {
+    padding: 10px 15px;
+
+    border: 1px solid #dce1ea;
+
+    border-radius: 7px;
+
+    color: #475569;
+
+    text-decoration: none;
+
+    font-size: 10px;
+}
+
+.save-button {
+    padding: 10px 15px;
+
+    background: #2563eb;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 7px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.save-button:hover {
+    background: #1d4ed8;
+}
+
+
+/* ===============================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1100px) {
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .sidebar {
+        width: 70px;
+
+        padding: 15px 8px;
+    }
+
+    .sidebar-brand div:not(.brand-icon),
+    .menu-title,
+    .menu-item span:last-child,
+    .logout span:last-child {
+        display: none;
+    }
+
+    .menu-item {
+        justify-content: center;
+    }
+
+    .main-content {
+        margin-left: 70px;
+
+        width: calc(100% - 70px);
+    }
+
+    .content {
+        padding: 18px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-heading {
+        align-items: flex-start;
+
+        gap: 15px;
+
+        flex-direction: column;
+    }
+
+}

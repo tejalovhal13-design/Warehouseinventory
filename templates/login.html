@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WIMS - Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="login-page">
+
+    <!-- ================= LEFT SIDE ================= -->
+
+    <div class="left-panel">
+
+        <div class="background-circle circle-one"></div>
+        <div class="background-circle circle-two"></div>
+
+        <div class="left-content">
+
+            <div class="warehouse-icon">
+                🏭
+            </div>
+
+            <h2>
+                Warehouse Intelligence<br>
+                at Your Fingertips
+            </h2>
+
+            <p>
+                Manage inventory, track stock movements,
+                process orders, and gain real-time insights
+                across all your warehouse operations.
+            </p>
+
+            <div class="features">
+
+                <span>Real-time Tracking</span>
+
+                <span>Multi-Warehouse</span>
+
+                <span>Smart Analytics</span>
+
+                <span>Order Management</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= RIGHT SIDE ================= -->
+
+    <div class="right-panel">
+
+        <div class="login-box">
+
+            <!-- Logo -->
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    🏢
+                </div>
+
+                <div>
+                    <h3>WIMS</h3>
+                    <p>Warehouse Inventory Management</p>
+                </div>
+
+            </div>
+
+
+            <!-- Heading -->
+
+            <h1>Welcome back</h1>
+
+            <p class="login-description">
+                Login to your workspace to continue.
+            </p>
+
+
+            <!-- Login Form -->
+
+            <form method="POST" action="/login">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <!-- Email -->
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="alex@wims.com"
+                    required
+                >
+
+
+                <!-- Password -->
+
+                <label for="password">
+                    Password
+                </label>
+
+                <div class="password-container">
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="••••••••"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="eye-button"
+                        onclick="togglePassword()"
+                        id="eyeButton"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+
+                <!-- Remember / Forgot -->
+
+                <div class="login-options">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            name="remember"
+                        >
+
+                        <span>Remember me</span>
+
+                    </label>
+
+                    <a href="#" class="forgot">
+                        Forgot password?
+                    </a>
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    type="submit"
+                    class="signin-button"
+                >
+                    Login
+                    <span>→</span>
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= PASSWORD SCRIPT ================= -->
+
+<script>
+
+function togglePassword() {
+
+    const password =
+        document.getElementById("password");
+
+    const eye =
+        document.getElementById("eyeButton");
+
+    if (password.type === "password") {
+
+        password.type = "text";
+
+        eye.textContent = "🙈";
+
+    } else {
+
+        password.type = "password";
+
+        eye.textContent = "👁";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

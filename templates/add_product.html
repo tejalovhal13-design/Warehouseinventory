@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>WIMS - Add Product</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='inventory.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon">
+                🏢
+            </div>
+
+            <div>
+                <h2>WIMS</h2>
+                <p>Electronics Warehouse</p>
+            </div>
+
+        </div>
+
+
+        <div class="menu-section">
+
+            <p class="menu-title">MAIN MENU</p>
+
+            <a href="/dashboard" class="menu-item">
+                <span class="menu-icon">▣</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/inventory" class="menu-item active">
+                <span class="menu-icon">📦</span>
+                <span>Inventory</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <span class="menu-icon">💻</span>
+                <span>Electronic Devices</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <span class="menu-icon">🛒</span>
+                <span>Orders</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <span class="menu-icon">🔄</span>
+                <span>Stock Movement</span>
+            </a>
+
+        </div>
+
+
+        <div class="menu-section">
+
+            <p class="menu-title">MANAGEMENT</p>
+
+            <a href="#" class="menu-item">
+                <span class="menu-icon">🏭</span>
+                <span>Warehouses</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Reports</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <span class="menu-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="/logout" class="logout">
+
+                <span>🚪</span>
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+
+        <header class="topbar">
+
+            <div></div>
+
+            <div class="profile">
+
+                <div class="profile-info">
+
+                    <strong>{{ name }}</strong>
+
+                    <span>{{ role }}</span>
+
+                </div>
+
+                <div class="profile-circle">
+                    {{ name[0] }}
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= CONTENT ================= -->
+
+        <section class="content">
+
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h1>Add Product</h1>
+
+                    <p>
+                        Add a new electronic device to your warehouse inventory.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= FORM ================= -->
+
+            <div class="panel add-product-panel">
+
+
+                <form action="/inventory/add"
+                      method="POST">
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
+                    <div class="form-grid">
+
+
+                        <!-- Product Name -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Product Name *
+                            </label>
+
+                            <input
+                                type="text"
+                                name="product_name"
+                                placeholder="Example: MacBook Air"
+                                required>
+
+                        </div>
+
+
+                        <!-- Category -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Category *
+                            </label>
+
+                            <select name="category" required>
+
+                                <option value="">
+                                    Select Category
+                                </option>
+
+                                <option value="Laptop">
+                                    Laptop
+                                </option>
+
+                                <option value="Smartphone">
+                                    Smartphone
+                                </option>
+
+                                <option value="Tablet">
+                                    Tablet
+                                </option>
+
+                                <option value="Monitor">
+                                    Monitor
+                                </option>
+
+                                <option value="Headphones">
+                                    Headphones
+                                </option>
+
+                                <option value="Accessories">
+                                    Accessories
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- Brand -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Brand *
+                            </label>
+
+                            <input
+                                type="text"
+                                name="brand"
+                                placeholder="Example: Apple"
+                                required>
+
+                        </div>
+
+
+                        <!-- Model -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Model
+                            </label>
+
+                            <input
+                                type="text"
+                                name="model"
+                                placeholder="Example: M4">
+
+                        </div>
+
+
+                        <!-- Quantity -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Quantity *
+                            </label>
+
+                            <input
+                                type="number"
+                                name="quantity"
+                                min="0"
+                                placeholder="Example: 50"
+                                required>
+
+                        </div>
+
+
+                        <!-- Price -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Price (₹) *
+                            </label>
+
+                            <input
+                                type="number"
+                                name="price"
+                                min="0"
+                                step="0.01"
+                                placeholder="Example: 65000"
+                                required>
+
+                        </div>
+
+
+                        <!-- Minimum Stock -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Minimum Stock Level *
+                            </label>
+
+                            <input
+                                type="number"
+                                name="minimum_stock"
+                                min="0"
+                                value="10"
+                                required>
+
+                        </div>
+
+
+                        <!-- Supplier -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Supplier
+                            </label>
+
+                            <input
+                                type="text"
+                                name="supplier"
+                                placeholder="Example: Apple India">
+
+                        </div>
+
+
+                        <!-- Warehouse -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Warehouse
+                            </label>
+
+                            <input
+                                type="text"
+                                name="warehouse"
+                                value="Main Warehouse">
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="form-buttons">
+
+                        <a href="/inventory"
+                           class="cancel-button">
+
+                            Cancel
+
+                        </a>
+
+
+                        <button type="submit"
+                                class="save-button">
+
+                            + Add Product
+
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

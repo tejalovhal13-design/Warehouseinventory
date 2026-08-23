@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>WIMS - Add Order</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='orders.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon">
+                🏢
+            </div>
+
+            <div>
+
+                <h2>WIMS</h2>
+
+                <p>Electronics Warehouse</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- MAIN MENU -->
+
+        <div class="menu-section">
+
+            <p class="menu-title">
+                MAIN MENU
+            </p>
+
+
+            <a href="/dashboard"
+               class="menu-item">
+
+                <span class="menu-icon">▣</span>
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="/inventory"
+               class="menu-item">
+
+                <span class="menu-icon">📦</span>
+                <span>Inventory</span>
+
+            </a>
+
+
+            <a href="#"
+               class="menu-item">
+
+                <span class="menu-icon">💻</span>
+                <span>Electronic Devices</span>
+
+            </a>
+
+
+            <a href="/orders"
+               class="menu-item active">
+
+                <span class="menu-icon">🛒</span>
+                <span>Orders</span>
+
+            </a>
+
+
+            <a href="/stock-movement"
+               class="menu-item">
+
+                <span class="menu-icon">🔄</span>
+                <span>Stock Movement</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- MANAGEMENT -->
+
+        <div class="menu-section management">
+
+            <p class="menu-title">
+                MANAGEMENT
+            </p>
+
+
+            <a href="/warehouses"
+               class="menu-item">
+
+                <span class="menu-icon">🏭</span>
+                <span>Warehouses</span>
+
+            </a>
+
+
+            <a href="#"
+               class="menu-item">
+
+                <span class="menu-icon">📊</span>
+                <span>Reports</span>
+
+            </a>
+
+
+            <a href="#"
+               class="menu-item">
+
+                <span class="menu-icon">⚙️</span>
+                <span>Settings</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- LOGOUT -->
+
+        <div class="sidebar-bottom">
+
+            <a href="/logout"
+               class="logout">
+
+                <span>🚪</span>
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div></div>
+
+            <div class="profile">
+
+                <div class="profile-info">
+
+                    <strong>
+                        {{ name }}
+                    </strong>
+
+                    <span>
+                        {{ role }}
+                    </span>
+
+                </div>
+
+                <div class="profile-circle">
+
+                    {{ name[0] }}
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= CONTENT ================= -->
+
+        <section class="content">
+
+
+            <!-- HEADING -->
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h1>
+                        Add Order
+                    </h1>
+
+                    <p>
+                        Create a new incoming or outgoing warehouse order.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= FORM ================= -->
+
+            <div class="orders-container add-order-panel">
+
+                <form method="POST"
+                  action="/orders/add">
+
+                     <input type="hidden"
+                     name="csrf_token"
+                      value="{{ csrf_token() }}">
+
+
+                    <div class="form-grid">
+
+
+                        <!-- PRODUCT -->
+
+                        <div class="form-group">
+
+                            <label>
+                                PRODUCT
+                            </label>
+
+                            <select name="product_id"
+                                    required>
+
+                                <option value="">
+                                    Select Product
+                                </option>
+
+                                {% for product in products %}
+
+                                <option value="{{ product.product_id }}">
+
+                                    {{ product.product_name }}
+
+                                    {% if product.brand %}
+                                        - {{ product.brand }}
+                                    {% endif %}
+
+                                    {% if product.model %}
+                                        {{ product.model }}
+                                    {% endif %}
+
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- QUANTITY -->
+
+                        <div class="form-group">
+
+                            <label>
+                                QUANTITY
+                            </label>
+
+                            <input type="number"
+                                   name="quantity"
+                                   min="1"
+                                   required
+                                   placeholder="Enter quantity">
+
+                        </div>
+
+
+                        <!-- ORDER TYPE -->
+
+                        <div class="form-group">
+
+                            <label>
+                                ORDER TYPE
+                            </label>
+
+                            <select name="order_type"
+                                    required>
+
+                                <option value="">
+                                    Select Type
+                                </option>
+
+                                <option value="Incoming">
+                                    Incoming
+                                </option>
+
+                                <option value="Outgoing">
+                                    Outgoing
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- PARTY -->
+
+                        <div class="form-group">
+
+                            <label>
+                                PARTY NAME
+                            </label>
+
+                            <input type="text"
+                                   name="party_name"
+                                   required
+                                   placeholder="Supplier / Customer">
+
+                        </div>
+
+
+                        <!-- WAREHOUSE -->
+
+                        <div class="form-group">
+
+                            <label>
+                                WAREHOUSE
+                            </label>
+
+                            <input type="text"
+                                   name="warehouse"
+                                   required
+                                   placeholder="Enter warehouse">
+
+                        </div>
+
+
+                        <!-- DATE -->
+
+                        <div class="form-group">
+
+                            <label>
+                                ORDER DATE
+                            </label>
+
+                            <input type="date"
+                                   name="order_date"
+                                   required>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="form-buttons">
+
+                        <a href="/orders"
+                           class="cancel-button">
+
+                            Cancel
+
+                        </a>
+
+
+                        <button type="submit"
+                                class="save-button">
+
+                            Create Order
+
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

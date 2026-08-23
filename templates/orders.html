@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>WIMS - Orders</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='orders.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon">
+                🏢
+            </div>
+
+            <div>
+
+                <h2>WIMS</h2>
+
+                <p>Electronics Warehouse</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- MAIN MENU -->
+
+        <div class="menu-section">
+
+            <p class="menu-title">
+                MAIN MENU
+            </p>
+
+
+            <a href="/dashboard"
+               class="menu-item">
+
+                <span class="menu-icon">▣</span>
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="/inventory"
+               class="menu-item">
+
+                <span class="menu-icon">📦</span>
+                <span>Inventory</span>
+
+            </a>
+
+
+            
+
+
+            <a href="/orders"
+               class="menu-item active">
+
+                <span class="menu-icon">🛒</span>
+                <span>Orders</span>
+
+            </a>
+
+
+            <a href="/stock-movement"
+               class="menu-item">
+
+                <span class="menu-icon">🔄</span>
+                <span>Stock Movement</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- MANAGEMENT -->
+
+        <div class="menu-section management">
+
+            <p class="menu-title">
+                MANAGEMENT
+            </p>
+
+
+            <a href="/warehouses"
+               class="menu-item">
+
+                <span class="menu-icon">🏭</span>
+                <span>Warehouses</span>
+
+            </a>
+
+
+            <!-- REPORTS -->
+
+<a href="{{ url_for('reports') }}" class="menu-item">
+
+    <span class="menu-icon">📊</span>
+    <span>Reports</span>
+
+</a>
+
+
+            <!-- SETTINGS -->
+
+<a href="{{ url_for('settings') }}" class="menu-item">
+
+    <span class="menu-icon">⚙️</span>
+    <span>Settings</span>
+
+</a>
+
+        </div>
+
+
+        <!-- LOGOUT -->
+
+        <div class="sidebar-bottom">
+
+            <a href="/logout"
+               class="logout">
+
+                <span>🚪</span>
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div></div>
+
+
+            <div class="profile">
+
+                <div class="profile-info">
+
+                    <strong>
+                        {{ name }}
+                    </strong>
+
+                    <span>
+                        {{ role }}
+                    </span>
+
+                </div>
+
+
+                <div class="profile-circle">
+
+                    {{ name[0] }}
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= CONTENT ================= -->
+
+        <section class="content">
+
+
+            <!-- PAGE HEADING -->
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h1>
+                        Orders
+                    </h1>
+
+                    <p>
+                        Manage incoming and outgoing warehouse orders.
+                    </p>
+
+                </div>
+
+
+                <a href="/orders/add"
+                   class="add-button">
+
+                    + Add Order
+
+                </a>
+
+            </div>
+
+
+            <!-- ================= ORDERS TABLE ================= -->
+
+            <div class="orders-container">
+
+                <div class="table-header">
+
+                    <h2>
+                        All Orders
+                    </h2>
+
+                </div>
+
+
+                {% if orders %}
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    ORDER ID
+                                </th>
+
+                                <th>
+                                    PRODUCT ID
+                                </th>
+
+                                <th>
+                                    TYPE
+                                </th>
+
+                                <th>
+                                    QUANTITY
+                                </th>
+
+                                <th>
+                                    PARTY
+                                </th>
+
+                                <th>
+                                    WAREHOUSE
+                                </th>
+
+                                <th>
+                                    DATE
+                                </th>
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for order in orders %}
+
+                            <tr>
+
+                                <td>
+                                    #{{ order.order_id }}
+                                </td>
+
+                                <td>
+                                    {{ order.product_id }}
+                                </td>
+
+                                <td>
+
+                                    {% if order.order_type == "Incoming" %}
+
+                                        <span class="type-badge incoming">
+                                            Incoming
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="type-badge outgoing">
+                                            Outgoing
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+                                    {{ order.quantity }}
+                                </td>
+
+                                <td>
+                                    {{ order.party_name }}
+                                </td>
+
+                                <td>
+                                    {{ order.warehouse }}
+                                </td>
+
+                                <td>
+                                    {{ order.order_date }}
+                                </td>
+
+                                <td>
+
+    {% if order.status == "Completed" %}
+
+        <span class="status-badge completed">
+            Completed
+        </span>
+
+    {% elif order.status == "Cancelled" %}
+
+        <span class="status-badge cancelled">
+            Cancelled
+        </span>
+
+    {% else %}
+
+    <span class="status-badge pending">
+        Pending
+    </span>
+
+    <form method="POST"
+          action="{{ url_for('complete_order', order_id=order.order_id) }}"
+          onsubmit="return confirm('Are you sure you want to complete this order?');"
+          style="margin-top: 7px;">
+
+        <input type="hidden"
+               name="csrf_token"
+               value="{{ csrf_token() }}">
+
+        <button type="submit"
+                class="complete-order-button">
+
+            Complete Order
+
+        </button>
+
+    </form>
+
+
+    <form method="POST"
+          action="{{ url_for('cancel_order', order_id=order.order_id) }}"
+          onsubmit="return confirm('Are you sure you want to cancel this order?');"
+          style="margin-top: 7px;">
+
+        <input type="hidden"
+               name="csrf_token"
+               value="{{ csrf_token() }}">
+
+        <button type="submit"
+                class="cancel-order-button">
+
+            Cancel Order
+
+        </button>
+
+    </form>
+
+{% endif %}
+
+</td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                {% else %}
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        🛒
+                    </div>
+
+                    <h2>
+                        No Orders Found
+                    </h2>
+
+                    <p>
+                        Add an order to start managing warehouse orders.
+                    </p>
+
+                    <a href="/orders/add"
+                       class="empty-button">
+
+                        + Add First Order
+
+                    </a>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

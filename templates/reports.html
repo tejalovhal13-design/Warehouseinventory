@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>WIMS - Reports</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='dashboard.css') }}">
+          <link rel="stylesheet"
+      href="{{ url_for('static', filename='reports.css') }}">
+
+    <style>
+
+        /* =========================================
+           REPORTS
+        ========================================= */
+
+        .section-title {
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .section-title h2 {
+            font-size: 17px;
+        }
+
+
+        /* =========================================
+           CHART GRID
+        ========================================= */
+
+        .charts-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 18px;
+
+            margin-top: 20px;
+        }
+
+
+        .chart-container {
+            position: relative;
+
+            height: 300px;
+
+            width: 100%;
+        }
+
+
+        /* =========================================
+           TABLE PANEL
+        ========================================= */
+
+        .table-panel {
+            margin-top: 20px;
+        }
+
+
+        .panel-header p {
+            color: #94a3b8;
+
+            font-size: 10px;
+
+            margin-top: 4px;
+        }
+
+
+        /* =========================================
+           MOVEMENT
+        ========================================= */
+
+        .movement {
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 15px;
+
+            font-size: 8px;
+
+            font-weight: 600;
+        }
+
+
+        .movement.in {
+            background: #dcfce7;
+
+            color: #15803d;
+        }
+
+
+        .movement.out {
+            background: #fee2e2;
+
+            color: #dc2626;
+        }
+
+
+        /* =========================================
+           ORDER STATUS
+        ========================================= */
+
+        .status.completed {
+            background: #dcfce7;
+
+            color: #15803d;
+        }
+
+
+        .status.pending {
+            background: #fef3c7;
+
+            color: #b45309;
+        }
+
+
+        .status.cancelled {
+            background: #fee2e2;
+
+            color: #dc2626;
+        }
+
+
+        /* =========================================
+           EMPTY TABLE
+        ========================================= */
+
+        .empty {
+            text-align: center;
+
+            color: #94a3b8;
+
+            padding: 25px;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard-container">
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================= -->
+
+    <aside class="sidebar">
+
+
+        <!-- BRAND -->
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon">
+                🏢
+            </div>
+
+
+            <div>
+
+                <h2>
+                    WIMS
+                </h2>
+
+                <p>
+                    Electronics Warehouse
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MAIN MENU -->
+
+        <div class="menu-section">
+
+            <p class="menu-title">
+                MAIN MENU
+            </p>
+
+
+            <!-- DASHBOARD -->
+
+            <a href="{{ url_for('dashboard') }}"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    ▣
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <!-- INVENTORY -->
+
+            <a href="{{ url_for('inventory') }}"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    📦
+                </span>
+
+                <span>
+                    Inventory
+                </span>
+
+            </a>
+
+
+            
+
+            <!-- ORDERS -->
+
+            <a href="{{ url_for('orders') }}"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    🛒
+                </span>
+
+                <span>
+                    Orders
+                </span>
+
+            </a>
+
+
+            <!-- STOCK MOVEMENT -->
+
+            <a href="{{ url_for('stock_movement') }}"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    🔄
+                </span>
+
+                <span>
+                    Stock Movement
+                </span>
+
+            </a>
+
+        </div>
+
+
+
+        <!-- MANAGEMENT -->
+
+        <div class="menu-section">
+
+            <p class="menu-title">
+                MANAGEMENT
+            </p>
+
+
+            <!-- WAREHOUSES -->
+
+            <a href="{{ url_for('warehouses') }}"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    🏭
+                </span>
+
+                <span>
+                    Warehouses
+                </span>
+
+            </a>
+
+
+            <!-- REPORTS -->
+
+            <a href="{{ url_for('reports') }}"
+               class="menu-item active">
+
+                <span class="menu-icon">
+                    📊
+                </span>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <!-- SETTINGS -->
+
+           <!-- SETTINGS -->
+
+<a href="{{ url_for('settings') }}" class="menu-item">
+
+    <span class="menu-icon">⚙️</span>
+    <span>Settings</span>
+
+</a>
+
+        </div>
+
+
+
+        <!-- LOGOUT -->
+
+        <div class="sidebar-bottom">
+
+            <a href="{{ url_for('logout') }}"
+               class="logout">
+
+                <span>
+                    🚪
+                </span>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================= -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div></div>
+
+
+            <div class="profile">
+
+                <div class="profile-info">
+
+                    <strong>
+                        {{ name }}
+                    </strong>
+
+                    <span>
+                        {{ role }}
+                    </span>
+
+                </div>
+
+
+                <div class="profile-circle">
+
+                    {{ name[0] }}
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =========================================
+             CONTENT
+        ========================================= -->
+
+        <section class="content">
+
+
+            <!-- HEADING -->
+
+            <div class="page-heading">
+
+                <h1>
+                    Reports
+                </h1>
+
+                <p>
+                    Warehouse inventory, order and stock movement analytics.
+                </p>
+
+            </div>
+
+
+
+            <!-- =========================================
+                 INVENTORY SUMMARY
+            ========================================= -->
+
+            <div class="section-title">
+
+                <h2>
+                    Inventory Summary
+                </h2>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+
+                <!-- TOTAL PRODUCTS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                TOTAL PRODUCTS
+                            </p>
+
+                            <h2>
+                                {{ total_products }}
+                            </h2>
+
+                            <span class="positive">
+                                Products in system
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat-icon blue">
+                            📦
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TOTAL STOCK -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                TOTAL STOCK
+                            </p>
+
+                            <h2>
+                                {{ total_stock }}
+                            </h2>
+
+                            <span class="positive">
+                                Current quantity
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat-icon blue">
+                            📊
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- LOW STOCK -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                LOW STOCK
+                            </p>
+
+                            <h2>
+                                {{ low_stock }}
+                            </h2>
+
+                            <span class="warning">
+                                Needs attention
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat-icon orange">
+                            ⚠
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- OUT OF STOCK -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                OUT OF STOCK
+                            </p>
+
+                            <h2>
+                                {{ out_of_stock }}
+                            </h2>
+
+                            <span class="danger">
+                                Requires restocking
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat-icon red">
+                            ×
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================================
+                 ORDER SUMMARY
+            ========================================= -->
+
+            <div class="section-title">
+
+                <h2>
+                    Order Summary
+                </h2>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                TOTAL ORDERS
+                            </p>
+
+                            <h2>
+                                {{ total_orders }}
+                            </h2>
+
+                            <span class="positive">
+                                All orders
+                            </span>
+
+                        </div>
+
+                        <div class="stat-icon blue">
+                            🛒
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                PENDING ORDERS
+                            </p>
+
+                            <h2>
+                                {{ pending_orders }}
+                            </h2>
+
+                            <span class="warning">
+                                Awaiting action
+                            </span>
+
+                        </div>
+
+                        <div class="stat-icon orange">
+                            ⏳
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                COMPLETED ORDERS
+                            </p>
+
+                            <h2>
+                                {{ completed_orders }}
+                            </h2>
+
+                            <span class="positive">
+                                Successfully completed
+                            </span>
+
+                        </div>
+
+                        <div class="stat-icon green">
+                            ✓
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                CANCELLED ORDERS
+                            </p>
+
+                            <h2>
+                                {{ cancelled_orders }}
+                            </h2>
+
+                            <span class="danger">
+                                Cancelled orders
+                            </span>
+
+                        </div>
+
+                        <div class="stat-icon red">
+                            ×
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================================
+                 CHARTS
+            ========================================= -->
+
+            
+
+            <!-- =========================================
+                 STOCK MOVEMENT SUMMARY
+            ========================================= -->
+
+            <div class="section-title">
+
+                <h2>
+                    Stock Movement Summary
+                </h2>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                TOTAL MOVEMENTS
+                            </p>
+
+                            <h2>
+                                {{ total_movements }}
+                            </h2>
+
+                            <span class="positive">
+                                Recorded movements
+                            </span>
+
+                        </div>
+
+                        <div class="stat-icon blue">
+                            🔄
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                INCOMING STOCK
+                            </p>
+
+                            <h2>
+                                {{ incoming_quantity }}
+                            </h2>
+
+                            <span class="positive">
+                                Units received
+                            </span>
+
+                        </div>
+
+                        <div class="stat-icon green">
+                            ↑
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                OUTGOING STOCK
+                            </p>
+
+                            <h2>
+                                {{ outgoing_quantity }}
+                            </h2>
+
+                            <span class="danger">
+                                Units dispatched
+                            </span>
+
+                        </div>
+
+                        <div class="stat-icon red">
+                            ↓
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        <!-- ==================================================
+     GRAPHS
+================================================== -->
+
+<div class="chart-grid">
+
+
+    <!-- ================= ORDER STATUS ================= -->
+
+    <div class="chart-panel">
+
+        <h2>Order Status</h2>
+
+        <div class="chart-container">
+
+
+            <!-- Pending -->
+
+            <div class="chart-column">
+
+                <div class="chart-value">
+                    {{ pending_orders }}
+                </div>
+
+                <div
+                    class="chart-bar pending"
+                    data-value="{{ pending_orders }}">
+                </div>
+
+                <div class="chart-label">
+                    Pending
+                </div>
+
+            </div>
+
+
+            <!-- Completed -->
+
+            <div class="chart-column">
+
+                <div class="chart-value">
+                    {{ completed_orders }}
+                </div>
+
+                <div
+                    class="chart-bar completed"
+                    data-value="{{ completed_orders }}">
+                </div>
+
+                <div class="chart-label">
+                    Completed
+                </div>
+
+            </div>
+
+
+            <!-- Cancelled -->
+
+            <div class="chart-column">
+
+                <div class="chart-value">
+                    {{ cancelled_orders }}
+                </div>
+
+                <div
+                    class="chart-bar cancelled"
+                    data-value="{{ cancelled_orders }}">
+                </div>
+
+                <div class="chart-label">
+                    Cancelled
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= STOCK MOVEMENT ================= -->
+
+    <div class="chart-panel">
+
+        <h2>Stock Movement</h2>
+
+        <div class="chart-container">
+
+
+            <!-- Incoming -->
+
+            <div class="chart-column">
+
+                <div class="chart-value">
+                    {{ incoming_quantity }}
+                </div>
+
+                <div
+                    class="chart-bar incoming"
+                    data-value="{{ incoming_quantity }}">
+                </div>
+
+                <div class="chart-label">
+                    Incoming
+                </div>
+
+            </div>
+
+
+            <!-- Outgoing -->
+
+            <div class="chart-column">
+
+                <div class="chart-value">
+                    {{ outgoing_quantity }}
+                </div>
+
+                <div
+                    class="chart-bar outgoing"
+                    data-value="{{ outgoing_quantity }}">
+                </div>
+
+                <div class="chart-label">
+                    Outgoing
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+            <!-- ==================================================
+     LOW STOCK PRODUCTS
+================================================== -->
+
+<div class="report-section">
+
+    <div class="section-header">
+        <h2>Low Stock Products</h2>
+
+        <span>
+            Products requiring attention
+        </span>
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>PRODUCT</th>
+                    <th>CATEGORY</th>
+                    <th>QUANTITY</th>
+                    <th>MINIMUM STOCK</th>
+                    <th>WAREHOUSE</th>
+                    <th>STATUS</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for product in low_stock_products %}
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            {{ product.product_name }}
+                        </strong>
+                    </td>
+
+                    <td>
+                        {{ product.category }}
+                    </td>
+
+                    <td>
+                        {{ product.quantity }}
+                    </td>
+
+                    <td>
+                        {{ product.minimum_stock }}
+                    </td>
+
+                    <td>
+                        {{ product.warehouse }}
+                    </td>
+
+                    <td>
+                        <span class="report-status warning-status">
+                            Low Stock
+                        </span>
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="6"
+                        class="empty-message">
+
+                        No low stock products.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     RECENT ORDERS
+================================================== -->
+
+<div class="report-section">
+
+    <div class="section-header">
+
+        <h2>Recent Orders</h2>
+
+        <a href="{{ url_for('orders') }}">
+            View All Orders
+        </a>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ORDER ID</th>
+                    <th>PRODUCT ID</th>
+                    <th>TYPE</th>
+                    <th>PARTY</th>
+                    <th>QUANTITY</th>
+                    <th>WAREHOUSE</th>
+                    <th>DATE</th>
+                    <th>STATUS</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for order in recent_orders %}
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            #{{ order.order_id }}
+                        </strong>
+                    </td>
+
+                    <td>
+                        {{ order.product_id }}
+                    </td>
+
+                    <td>
+
+                        {% if order.order_type == "Incoming" %}
+
+                            <span class="movement-badge in-badge">
+                                Incoming
+                            </span>
+
+                        {% else %}
+
+                            <span class="movement-badge out-badge">
+                                Outgoing
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        {{ order.party_name }}
+                    </td>
+
+                    <td>
+                        {{ order.quantity }}
+                    </td>
+
+                    <td>
+                        {{ order.warehouse }}
+                    </td>
+
+                    <td>
+                        {{ order.order_date }}
+                    </td>
+
+                    <td>
+
+                        {% if order.status == "Completed" %}
+
+                            <span class="report-status completed-status">
+                                Completed
+                            </span>
+
+                        {% elif order.status == "Cancelled" %}
+
+                            <span class="report-status cancelled-status">
+                                Cancelled
+                            </span>
+
+                        {% else %}
+
+                            <span class="report-status pending-status">
+                                Pending
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="8"
+                        class="empty-message">
+
+                        No orders available.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     RECENT STOCK MOVEMENTS
+================================================== -->
+
+<div class="report-section">
+
+    <div class="section-header">
+
+        <h2>Recent Stock Movements</h2>
+
+        <a href="{{ url_for('stock_movement') }}">
+            View All Movements
+        </a>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>MOVEMENT ID</th>
+                    <th>PRODUCT</th>
+                    <th>TYPE</th>
+                    <th>QUANTITY</th>
+                    <th>DATE</th>
+                    <th>USER</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for movement in recent_movements %}
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            #{{ movement.movement_id }}
+                        </strong>
+                    </td>
+
+                    <td>
+                        {{ movement.product_name }}
+                    </td>
+
+                    <td>
+
+                        {% if movement.movement_type == "IN" %}
+
+                            <span class="movement-badge in-badge">
+                                IN
+                            </span>
+
+                        {% else %}
+
+                            <span class="movement-badge out-badge">
+                                OUT
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        {{ movement.quantity }}
+                    </td>
+
+                    <td>
+                        {{ movement.movement_date }}
+                    </td>
+
+                    <td>
+                        {{ movement.user_name }}
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="6"
+                        class="empty-message">
+
+                        No stock movements available.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     FOOTER
+================================================== -->
+
+<footer class="report-footer">
+
+    <p>
+        WIMS — Warehouse Inventory Management System
+    </p>
+
+    <span>
+        Inventory • Orders • Stock Movement • Reports
+    </span>
+
+</footer>
+
+
+</section>
+
+
+</main>
+
+
+</div>
+
+
+<!-- ==================================================
+     SIMPLE GRAPH SCRIPT
+================================================== -->
+
+<script>
+
+    document.querySelectorAll(".chart-bar").forEach(
+        function(bar) {
+
+            const value =
+                Number(bar.dataset.value);
+
+            const allBars =
+                document.querySelectorAll(
+                    ".chart-bar"
+                );
+
+            let maxValue = 0;
+
+            allBars.forEach(function(item) {
+
+                const itemValue =
+                    Number(item.dataset.value);
+
+                if (itemValue > maxValue) {
+                    maxValue = itemValue;
+                }
+
+            });
+
+
+            if (maxValue === 0) {
+
+                bar.style.height = "4px";
+
+            } else {
+
+                const height =
+                    (value / maxValue) * 160;
+
+                bar.style.height =
+                    Math.max(height, 4) + "px";
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

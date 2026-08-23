@@ -1,0 +1,435 @@
+/* ==================================================
+   REPORTS PAGE
+================================================== */
+
+.report-page {
+    background: #f5f7fb;
+    min-height: 100vh;
+}
+
+
+/* ==================================================
+   REPORT CONTENT
+================================================== */
+
+.report-content {
+    padding: 30px;
+}
+
+
+/* ==================================================
+   PAGE HEADING
+================================================== */
+
+.report-heading {
+    margin-bottom: 25px;
+}
+
+.report-heading h1 {
+    font-size: 25px;
+    color: #0f172a;
+    margin-bottom: 7px;
+}
+
+.report-heading p {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+
+/* ==================================================
+   REPORT CARDS
+================================================== */
+
+.report-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.report-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 18px;
+
+    box-shadow:
+        0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+.report-card-title {
+    color: #94a3b8;
+    font-size: 9px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.report-card h2 {
+    font-size: 25px;
+    color: #0f172a;
+    margin-bottom: 5px;
+}
+
+.report-card-text {
+    font-size: 9px;
+    color: #64748b;
+}
+
+
+/* ==================================================
+   CHART GRID
+================================================== */
+
+.chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.chart-panel {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 20px;
+
+    box-shadow:
+        0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+.chart-panel h2 {
+    font-size: 15px;
+    color: #0f172a;
+    margin-bottom: 18px;
+}
+
+
+/* ==================================================
+   CSS BAR CHART
+================================================== */
+
+.chart-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    gap: 35px;
+
+    height: 220px;
+
+    padding: 20px 10px 10px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.chart-column {
+    width: 55px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: flex-end;
+
+    height: 100%;
+}
+
+.chart-value {
+    font-size: 10px;
+    font-weight: 600;
+    color: #334155;
+
+    margin-bottom: 7px;
+}
+
+.chart-bar {
+    width: 42px;
+
+    min-height: 4px;
+
+    border-radius: 6px 6px 0 0;
+
+    transition: height 0.4s ease;
+}
+
+.chart-bar.pending {
+    background: #f59e0b;
+}
+
+.chart-bar.completed {
+    background: #16a34a;
+}
+
+.chart-bar.cancelled {
+    background: #ef4444;
+}
+
+.chart-bar.incoming {
+    background: #2563eb;
+}
+
+.chart-bar.outgoing {
+    background: #7c3aed;
+}
+
+.chart-label {
+    margin-top: 9px;
+
+    font-size: 9px;
+
+    color: #64748b;
+
+    text-align: center;
+}
+
+
+/* ==================================================
+   REPORT SECTIONS
+================================================== */
+
+.report-section {
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+
+    box-shadow:
+        0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+.section-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+.section-header h2 {
+    font-size: 15px;
+
+    color: #0f172a;
+}
+
+.section-header span {
+    font-size: 10px;
+
+    color: #94a3b8;
+}
+
+.section-header a {
+    font-size: 10px;
+
+    color: #2563eb;
+
+    text-decoration: none;
+}
+
+.section-header a:hover {
+    text-decoration: underline;
+}
+
+
+/* ==================================================
+   TABLE
+================================================== */
+
+.table-container {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.table-container table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+.table-container th {
+    text-align: left;
+
+    color: #94a3b8;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    padding: 10px 7px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    white-space: nowrap;
+}
+
+.table-container td {
+    padding: 12px 7px;
+
+    border-bottom: 1px solid #f1f5f9;
+
+    font-size: 10px;
+
+    color: #64748b;
+
+    white-space: nowrap;
+}
+
+.table-container td strong {
+    color: #334155;
+
+    font-weight: 600;
+}
+
+
+/* ==================================================
+   STATUS BADGES
+================================================== */
+
+.report-status {
+    display: inline-block;
+
+    padding: 5px 9px;
+
+    border-radius: 15px;
+
+    font-size: 8px;
+
+    font-weight: 600;
+}
+
+.warning-status {
+    background: #fef3c7;
+
+    color: #b45309;
+}
+
+.completed-status {
+    background: #dcfce7;
+
+    color: #15803d;
+}
+
+.pending-status {
+    background: #fef3c7;
+
+    color: #b45309;
+}
+
+.cancelled-status {
+    background: #fee2e2;
+
+    color: #dc2626;
+}
+
+
+/* ==================================================
+   MOVEMENT BADGES
+================================================== */
+
+.movement-badge {
+    display: inline-block;
+
+    padding: 5px 9px;
+
+    border-radius: 15px;
+
+    font-size: 8px;
+
+    font-weight: 600;
+}
+
+.in-badge {
+    background: #dbeafe;
+
+    color: #1d4ed8;
+}
+
+.out-badge {
+    background: #ede9fe;
+
+    color: #6d28d9;
+}
+
+
+/* ==================================================
+   EMPTY MESSAGE
+================================================== */
+
+.empty-message {
+    text-align: center;
+
+    padding: 25px !important;
+
+    color: #94a3b8 !important;
+
+    font-size: 10px !important;
+}
+
+
+/* ==================================================
+   FOOTER
+================================================== */
+
+.report-footer {
+    text-align: center;
+
+    padding: 15px 0 5px;
+
+    color: #94a3b8;
+
+    font-size: 9px;
+}
+
+.report-footer span {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #cbd5e1;
+
+    font-size: 8px;
+}
+
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (max-width: 1100px) {
+
+    .report-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .chart-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 750px) {
+
+    .report-content {
+        padding: 18px;
+    }
+
+    .report-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-container {
+        gap: 20px;
+    }
+
+    .chart-bar {
+        width: 32px;
+    }
+}

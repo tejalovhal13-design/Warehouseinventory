@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>WIMS - Warehouses</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='warehouses.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon">
+                🏢
+            </div>
+
+            <div>
+
+                <h2>WIMS</h2>
+
+                <p>Electronics Warehouse</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- MAIN MENU -->
+
+        <div class="menu-section">
+
+            <p class="menu-title">
+                MAIN MENU
+            </p>
+
+
+            <a href="/dashboard"
+               class="menu-item">
+
+                <span class="menu-icon">▣</span>
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="/inventory"
+               class="menu-item">
+
+                <span class="menu-icon">📦</span>
+                <span>Inventory</span>
+
+            </a>
+
+
+            
+
+            <a href="{{ url_for('orders') }}"
+               class="menu-item">
+
+              <span class="menu-icon">🛒</span>
+              <span>Orders</span>
+
+            </a>
+
+
+            <a href="/stock-movement"
+               class="menu-item">
+
+                <span class="menu-icon">🔄</span>
+                <span>Stock Movement</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- MANAGEMENT -->
+
+        <div class="menu-section management">
+
+            <p class="menu-title">
+                MANAGEMENT
+            </p>
+
+
+            <a href="/warehouses"
+               class="menu-item active">
+
+                <span class="menu-icon">🏭</span>
+                <span>Warehouses</span>
+
+            </a>
+
+
+            <!-- REPORTS -->
+
+<a href="{{ url_for('reports') }}" class="menu-item">
+
+    <span class="menu-icon">📊</span>
+    <span>Reports</span>
+
+</a>
+
+            <!-- SETTINGS -->
+
+<a href="{{ url_for('settings') }}" class="menu-item">
+
+    <span class="menu-icon">⚙️</span>
+    <span>Settings</span>
+
+</a>
+
+        </div>
+
+
+        <!-- LOGOUT -->
+
+        <div class="sidebar-bottom">
+
+            <a href="/logout"
+               class="logout">
+
+                <span>🚪</span>
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div></div>
+
+
+            <div class="profile">
+
+                <div class="profile-info">
+
+                    <strong>
+                        {{ name }}
+                    </strong>
+
+                    <span>
+                        {{ role }}
+                    </span>
+
+                </div>
+
+
+                <div class="profile-circle">
+
+                    {{ name[0] }}
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= CONTENT ================= -->
+
+        <section class="content">
+
+
+            <!-- PAGE HEADING -->
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h1>
+                        Warehouses
+                    </h1>
+
+                    <p>
+                        Manage your warehouse locations and stock distribution.
+                    </p>
+
+                </div>
+
+
+                <a href="{{ url_for('add_warehouse') }}"
+                   class="add-button">
+
+                    + Add Warehouse
+
+                </a>
+
+            </div>
+
+
+            <!-- ================= WAREHOUSE CARDS ================= -->
+
+            <div class="warehouse-grid">
+
+
+                {% for warehouse in warehouses %}
+
+                <div class="warehouse-card">
+
+
+                    <!-- WAREHOUSE TOP -->
+
+                    <div class="warehouse-top">
+
+                        <div class="warehouse-icon">
+                            🏭
+                        </div>
+
+                    <span class="warehouse-status
+                      {% if warehouse.status == 'Inactive' %}inactive-status{% endif %}">
+                      {{ warehouse.status }}
+                     </span>
+                        
+
+                    </div>
+
+
+                    <!-- WAREHOUSE NAME -->
+
+                    <h2>
+                        {{ warehouse.warehouse_name }}
+                    </h2>
+
+
+                    <!-- LOCATION -->
+
+                    <p class="warehouse-location">
+                        📍 {{ warehouse.location }}
+                    </p>
+
+
+                    <!-- DETAILS -->
+
+                    <div class="warehouse-details">
+
+
+                        <div>
+
+                            <span>
+                                MANAGER
+                            </span>
+
+                            <strong>
+                                {{ warehouse.manager_name }}
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                CONTACT
+                            </span>
+
+                            <strong>
+                                {{ warehouse.contact_number }}
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- ================= FOOTER ================= -->
+
+                    <div class="warehouse-footer">
+
+
+                        <span>
+                            Warehouse ID:
+                            #{{ warehouse.warehouse_id }}
+                        </span>
+
+
+                        <!-- MAKE INACTIVE BUTTON -->
+
+                        {% if warehouse.status == "Active" %}
+
+<form method="POST"
+      action="{{ url_for('make_warehouse_inactive', warehouse_id=warehouse.warehouse_id) }}"
+      onsubmit="return confirm('Are you sure you want to make this warehouse inactive?');">
+
+    <input type="hidden"
+           name="csrf_token"
+           value="{{ csrf_token() }}">
+
+    <button type="submit"
+            class="inactive-button">
+
+        Make Inactive
+
+    </button>
+
+</form>
+
+{% else %}
+
+<form method="POST"
+      action="{{ url_for('activate_warehouse', warehouse_id=warehouse.warehouse_id) }}"
+      onsubmit="return confirm('Are you sure you want to activate this warehouse?');">
+
+    <input type="hidden"
+           name="csrf_token"
+           value="{{ csrf_token() }}">
+
+    <button type="submit"
+            class="activate-button">
+
+        Activate
+
+    </button>
+
+</form>
+
+{% endif %}
+                    </div>
+
+
+                </div>
+
+                {% else %}
+
+                <!-- EMPTY STATE -->
+
+                <div class="empty-state">
+
+                    <h2>
+                        No Warehouses Found
+                    </h2>
+
+                    <p>
+                        Add a warehouse to get started.
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

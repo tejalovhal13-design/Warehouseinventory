@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>WIMS - Settings</title>
+
+    <!-- Existing Dashboard CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='dashboard.css') }}">
+
+    <!-- Settings CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='settings.css') }}">
+
+</head>
+
+
+<body>
+
+<div class="dashboard-container">
+
+
+    <!-- ==================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="sidebar">
+
+
+        <!-- BRAND -->
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon">
+                🏢
+            </div>
+
+            <div>
+
+                <h2>WIMS</h2>
+
+                <p>
+                    Electronics Warehouse
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             MAIN MENU
+        ================================================== -->
+
+        <div class="menu-section">
+
+            <p class="menu-title">
+                MAIN MENU
+            </p>
+
+
+            <!-- DASHBOARD -->
+
+            <a href="{{ url_for('dashboard') }}"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    ▣
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <!-- INVENTORY -->
+
+            <a href="{{ url_for('inventory') }}"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    📦
+                </span>
+
+                <span>
+                    Inventory
+                </span>
+
+            </a>
+
+
+            <!-- ORDERS -->
+
+            <a href="{{ url_for('orders') }}"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    🛒
+                </span>
+
+                <span>
+                    Orders
+                </span>
+
+            </a>
+
+
+            <!-- STOCK MOVEMENT -->
+
+            <a href="{{ url_for('stock_movement') }}"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    🔄
+                </span>
+
+                <span>
+                    Stock Movement
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <!-- ==================================================
+             MANAGEMENT
+        ================================================== -->
+
+        <div class="menu-section management">
+
+            <p class="menu-title">
+                MANAGEMENT
+            </p>
+
+
+            <!-- WAREHOUSES -->
+
+            <a href="{{ url_for('warehouses') }}"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    🏭
+                </span>
+
+                <span>
+                    Warehouses
+                </span>
+
+            </a>
+
+
+            <!-- REPORTS -->
+
+            <a href="{{ url_for('reports') }}"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    📊
+                </span>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <!-- SETTINGS -->
+
+            <a href="{{ url_for('settings') }}"
+               class="menu-item active">
+
+                <span class="menu-icon">
+                    ⚙️
+                </span>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <!-- ==================================================
+             LOGOUT
+        ================================================== -->
+
+        <div class="sidebar-bottom">
+
+            <a href="{{ url_for('logout') }}"
+               class="logout">
+
+                <span>
+                    🚪
+                </span>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- ==================================================
+         MAIN CONTENT
+    ================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- ==================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="topbar">
+
+            <div></div>
+
+
+            <div class="profile">
+
+                <div class="profile-info">
+
+                    <strong>
+                        {{ name }}
+                    </strong>
+
+                    <span>
+                        {{ role }}
+                    </span>
+
+                </div>
+
+
+                <div class="profile-circle">
+
+                    {{ name[0] }}
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ==================================================
+             SETTINGS CONTENT
+        ================================================== -->
+
+        <section class="settings-content">
+
+
+            <!-- PAGE HEADING -->
+
+            <div class="settings-heading">
+
+                <h1>
+                    Settings
+                </h1>
+
+                <p>
+                    Manage your WIMS account and system preferences.
+                </p>
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 ACCOUNT SETTINGS
+            ================================================== -->
+
+            <div class="settings-section">
+
+                <div class="settings-section-header">
+
+                    <div>
+
+                        <h2>
+                            Account
+                        </h2>
+
+                        <p>
+                            Your account information
+                        </p>
+
+                    </div>
+
+                    <span class="settings-icon">
+                        👤
+                    </span>
+
+                </div>
+
+
+                <div class="settings-row">
+
+                    <div>
+
+                        <strong>
+                            Name
+                        </strong>
+
+                        <p>
+                            {{ name }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-row">
+
+                    <div>
+
+                        <strong>
+                            Role
+                        </strong>
+
+                        <p>
+                            {{ role }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 SECURITY
+            ================================================== -->
+
+            <div class="settings-section">
+
+                <div class="settings-section-header">
+
+                    <div>
+
+                        <h2>
+                            Security
+                        </h2>
+
+                        <p>
+                            Manage your account security
+                        </p>
+
+                    </div>
+
+                    <span class="settings-icon">
+                        🔐
+                    </span>
+
+                </div>
+
+
+                <div class="settings-row">
+
+    <div>
+
+        <strong>
+            Password
+        </strong>
+
+        <p>
+            Keep your account password secure.
+        </p>
+
+    </div>
+
+
+    <button type="button"
+            class="settings-button"
+            onclick="openPasswordForm()">
+
+        Change Password
+
+    </button>
+
+</div>
+
+
+<!-- ==================================================
+     CHANGE PASSWORD FORM
+================================================== -->
+
+<div id="password-form"
+     class="password-form">
+
+    <form action="{{ url_for('change_password') }}"
+          method="POST">
+
+        <div class="password-field">
+
+            <label>
+                Current Password
+            </label>
+
+            <input
+                type="password"
+                name="current_password"
+                required>
+
+        </div>
+
+
+        <div class="password-field">
+
+            <label>
+                New Password
+            </label>
+
+            <input
+                type="password"
+                name="new_password"
+                minlength="8"
+                required>
+
+        </div>
+
+
+        <div class="password-field">
+
+            <label>
+                Confirm New Password
+            </label>
+
+            <input
+                type="password"
+                name="confirm_password"
+                minlength="8"
+                required>
+
+        </div>
+
+
+        <div class="password-actions">
+
+            <button type="submit"
+                    class="settings-button">
+
+                Update Password
+
+            </button>
+
+
+            <button type="button"
+                    class="cancel-button"
+                    onclick="closePasswordForm()">
+
+                Cancel
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 NOTIFICATIONS
+            ================================================== -->
+
+            <div class="settings-section">
+
+                <div class="settings-section-header">
+
+                    <div>
+
+                        <h2>
+                            Notifications
+                        </h2>
+
+                        <p>
+                            Manage warehouse notifications
+                        </p>
+
+                    </div>
+
+                    <span class="settings-icon">
+                        🔔
+                    </span>
+
+                </div>
+
+
+                <div class="settings-row">
+
+                    <div>
+
+                        <strong>
+                            Low Stock Alerts
+                        </strong>
+
+                        <p>
+                            Receive alerts when inventory reaches
+                            the minimum stock level.
+                        </p>
+
+                    </div>
+
+
+                    <label class="toggle">
+
+                        <input type="checkbox"
+                               checked>
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="settings-row">
+
+                    <div>
+
+                        <strong>
+                            Order Notifications
+                        </strong>
+
+                        <p>
+                            Receive notifications for order updates.
+                        </p>
+
+                    </div>
+
+
+                    <label class="toggle">
+
+                        <input type="checkbox"
+                               checked>
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 SYSTEM INFORMATION
+            ================================================== -->
+
+            <div class="settings-section">
+
+                <div class="settings-section-header">
+
+                    <div>
+
+                        <h2>
+                            System Information
+                        </h2>
+
+                        <p>
+                            WIMS application information
+                        </p>
+
+                    </div>
+
+                    <span class="settings-icon">
+                        ⚙️
+                    </span>
+
+                </div>
+
+
+                <div class="settings-row">
+
+                    <div>
+
+                        <strong>
+                            Application
+                        </strong>
+
+                        <p>
+                            Warehouse Inventory Management System
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-row">
+
+                    <div>
+
+                        <strong>
+                            Version
+                        </strong>
+
+                        <p>
+                            1.0.0
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+<script>
+
+function openPasswordForm() {
+
+    document.getElementById("password-form").style.display = "block";
+
+}
+
+
+function closePasswordForm() {
+
+    document.getElementById("password-form").style.display = "none";
+
+}
+
+</script>
+</body>
+
+</html>

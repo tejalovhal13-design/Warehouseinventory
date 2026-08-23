@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>WIMS - Stock Movement</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='inventory.css') }}">
+
+    <style>
+
+        /* ==================================================
+           STOCK MOVEMENT FORM
+        ================================================== */
+
+        .movement-panel {
+            width: 100%;
+            max-width: 750px;
+            margin-bottom: 25px;
+        }
+
+        .movement-form {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+
+        /* ================= FORM GROUP ================= */
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+
+        /* ================= INPUTS ================= */
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 12px 13px;
+
+            border: 1px solid #dce1ea;
+            border-radius: 7px;
+
+            outline: none;
+
+            font-size: 12px;
+            font-family: Arial, sans-serif;
+
+            background: white;
+
+            color: #172033;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            border-color: #2563eb;
+        }
+
+
+        /* ================= CURRENT STOCK ================= */
+
+        .current-stock {
+            padding: 13px 15px;
+
+            background: #f8fafc;
+
+            border: 1px solid #edf0f4;
+
+            border-radius: 7px;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+        .current-stock strong {
+            color: #172033;
+            font-weight: bold;
+        }
+
+
+        /* ==================================================
+           STOCK TYPE
+        ================================================== */
+
+        .stock-type {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+        }
+
+        .stock-type label {
+            margin: 0;
+        }
+
+        .stock-type input {
+            display: none;
+        }
+
+        .type-option {
+
+            display: block;
+
+            padding: 12px;
+
+            text-align: center;
+
+            border: 1px solid #dce1ea;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            color: #475569;
+
+            background: white;
+
+            transition: 0.2s;
+        }
+
+        .type-option:hover {
+            border-color: #2563eb;
+        }
+
+        .stock-type input:checked + .type-option {
+
+            border-color: #2563eb;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+        }
+
+
+        /* ==================================================
+           MOVEMENT BUTTON
+        ================================================== */
+
+        .movement-button {
+
+            width: 100%;
+
+            padding: 12px 18px;
+
+            background: #2563eb;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .movement-button:hover {
+            background: #1d4ed8;
+        }
+
+
+        /* ==================================================
+           HISTORY
+        ================================================== */
+
+        .history-panel {
+            width: 100%;
+        }
+
+        .movement-in {
+            color: #219563;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+        .movement-out {
+            color: #d84b4b;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+        .history-empty {
+
+            text-align: center;
+
+            padding: 25px;
+
+            color: #8992a5;
+
+            font-size: 12px;
+        }
+
+
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
+
+        @media (max-width: 700px) {
+
+            .movement-panel {
+                max-width: 100%;
+            }
+
+            .movement-form {
+                padding: 20px;
+            }
+
+            .stock-type {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard-container">
+
+
+    <!-- ==================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="sidebar">
+
+
+        <!-- BRAND -->
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon">
+                🏢
+            </div>
+
+            <div>
+
+                <h2>WIMS</h2>
+
+                <p>
+                    Electronics Warehouse
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             MAIN MENU
+        ================================================== -->
+
+        <div class="menu-section">
+
+            <p class="menu-title">
+                MAIN MENU
+            </p>
+
+
+            <!-- DASHBOARD -->
+
+            <a href="{{ url_for('dashboard') }}"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    ▣
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <!-- INVENTORY -->
+
+            <a href="{{ url_for('inventory') }}"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    📦
+                </span>
+
+                <span>
+                    Inventory
+                </span>
+
+            </a>
+
+
+            
+
+
+            <!-- ORDERS -->
+
+           <a href="{{ url_for('orders') }}"
+   class="menu-item">
+
+    <span class="menu-icon">🛒</span>
+    <span>Orders</span>
+
+</a>
+            <!-- STOCK MOVEMENT -->
+
+            <a href="{{ url_for('stock_movement') }}"
+               class="menu-item active">
+
+                <span class="menu-icon">
+                    🔄
+                </span>
+
+                <span>
+                    Stock Movement
+                </span>
+
+            </a>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             MANAGEMENT
+        ================================================== -->
+
+        <div class="menu-section management">
+
+            <p class="menu-title">
+                MANAGEMENT
+            </p>
+
+
+            <!-- WAREHOUSES -->
+
+            <a href="{{ url_for('warehouses') }}" class="menu-item">
+
+                <span class="menu-icon">🏭</span>
+                <span>Warehouses</span>
+
+            </a>
+
+
+          
+
+            <!-- REPORTS -->
+
+<a href="{{ url_for('reports') }}" class="menu-item">
+
+    <span class="menu-icon">📊</span>
+    <span>Reports</span>
+
+</a>
+
+
+           
+
+            <!-- SETTINGS -->
+
+<a href="{{ url_for('settings') }}" class="menu-item">
+
+    <span class="menu-icon">⚙️</span>
+    <span>Settings</span>
+
+</a>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             LOGOUT
+        ================================================== -->
+
+        <div class="sidebar-bottom">
+
+            <a href="{{ url_for('logout') }}"
+               class="logout">
+
+                <span>
+                    🚪
+                </span>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ==================================================
+         MAIN CONTENT
+    ================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- ==================================================
+             TOP BAR
+        ================================================== -->
+
+        <header class="topbar">
+
+            <div></div>
+
+
+            <!-- PROFILE -->
+
+            <div class="profile">
+
+                <div class="profile-info">
+
+                    <strong>
+                        {{ name }}
+                    </strong>
+
+                    <span>
+                        {{ role }}
+                    </span>
+
+                </div>
+
+
+                <div class="profile-circle">
+
+                    {{ name[0] }}
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ==================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <section class="content">
+
+
+            <!-- ==================================================
+                 PAGE HEADING
+            ================================================== -->
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h1>
+                        Stock Movement
+                    </h1>
+
+                    <p>
+                        Record stock received and stock dispatched
+                        from the warehouse.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 RECORD MOVEMENT PANEL
+            ================================================== -->
+
+            <div class="panel movement-panel">
+
+
+                <!-- PANEL HEADER -->
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            Record Stock Movement
+                        </h2>
+
+                        <p>
+                            Update product stock and record the transaction.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- FORM -->
+
+                <form
+                    action="{{ url_for('stock_movement') }}"
+                    method="POST"
+                    class="movement-form">
+
+
+                    <!-- CSRF TOKEN -->
+
+                    <input
+                        type="hidden"
+                        name="csrf_token"
+                        value="{{ csrf_token() }}">
+
+
+
+                    <!-- ==================================================
+                         PRODUCT
+                    ================================================== -->
+
+                    <div class="form-group">
+
+                        <label for="product_id">
+                            Product
+                        </label>
+
+
+                        <select
+                            name="product_id"
+                            id="product_id"
+                            required>
+
+
+                            <option value="">
+                                Select Product
+                            </option>
+
+
+                            {% for product in products %}
+
+                                <option
+                                    value="{{ product.product_id }}"
+                                    data-stock="{{ product.quantity }}">
+
+                                    {{ product.product_name }}
+                                    — Current Stock:
+                                    {{ product.quantity }}
+
+                                </option>
+
+                            {% endfor %}
+
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- ==================================================
+                         CURRENT STOCK
+                    ================================================== -->
+
+                    <div class="current-stock">
+
+                        Current Stock:
+
+                        <strong id="currentStock">
+                            Select a product
+                        </strong>
+
+                    </div>
+
+
+
+                    <!-- ==================================================
+                         MOVEMENT TYPE
+                    ================================================== -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Movement Type
+                        </label>
+
+
+                        <div class="stock-type">
+
+
+                            <!-- STOCK IN -->
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="movement_type"
+                                    value="IN"
+                                    required>
+
+                                <span class="type-option">
+
+                                    ➕ Stock In
+
+                                </span>
+
+                            </label>
+
+
+
+                            <!-- STOCK OUT -->
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="movement_type"
+                                    value="OUT"
+                                    required>
+
+                                <span class="type-option">
+
+                                    ➖ Stock Out
+
+                                </span>
+
+                            </label>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ==================================================
+                         QUANTITY
+                    ================================================== -->
+
+                    <div class="form-group">
+
+                        <label for="quantity">
+                            Quantity
+                        </label>
+
+
+                        <input
+                            type="number"
+                            name="quantity"
+                            id="quantity"
+                            min="1"
+                            placeholder="Enter quantity"
+                            required>
+
+                    </div>
+
+
+
+                    <!-- ==================================================
+                         SUBMIT
+                    ================================================== -->
+
+                    <button
+                        type="submit"
+                        class="movement-button">
+
+                        Record Movement
+
+                    </button>
+
+
+                </form>
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 MOVEMENT HISTORY
+            ================================================== -->
+
+            <div class="panel history-panel">
+
+
+                <!-- HEADER -->
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            Stock Movement History
+                        </h2>
+
+                        <p>
+                            Recent stock transactions recorded
+                            in the warehouse.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TABLE -->
+
+                <div class="table-container">
+
+                    <table>
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    PRODUCT
+                                </th>
+
+                                <th>
+                                    TYPE
+                                </th>
+
+                                <th>
+                                    QUANTITY
+                                </th>
+
+                                <th>
+                                    DATE & TIME
+                                </th>
+
+                                <th>
+                                    USER
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+
+                        <tbody>
+
+
+                            {% for movement in movements %}
+
+
+                                <tr>
+
+
+                                    <!-- PRODUCT -->
+
+                                    <td>
+
+                                        <strong>
+                                            {{ movement.product_name }}
+                                        </strong>
+
+                                    </td>
+
+
+
+                                    <!-- TYPE -->
+
+                                    <td>
+
+                                        {% if movement.movement_type == "IN" %}
+
+                                            <span class="movement-in">
+
+                                                ➕ Stock In
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="movement-out">
+
+                                                ➖ Stock Out
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+
+                                    <!-- QUANTITY -->
+
+                                    <td>
+
+                                        {{ movement.quantity }}
+
+                                    </td>
+
+
+
+                                    <!-- DATE -->
+
+                                    <td>
+
+                                        {{ movement.movement_date }}
+
+                                    </td>
+
+
+
+                                    <!-- USER -->
+
+                                    <td>
+
+                                        <strong>
+                                            {{ movement.user_name }}
+                                        </strong>
+
+                                    </td>
+
+
+                                </tr>
+
+
+                            {% else %}
+
+
+                                <!-- NO HISTORY -->
+
+                                <tr>
+
+                                    <td
+                                        colspan="5"
+                                        class="history-empty">
+
+                                        No stock movements recorded yet.
+
+                                    </td>
+
+                                </tr>
+
+
+                            {% endfor %}
+
+
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+<script>
+
+const productSelect =
+    document.getElementById("product_id");
+
+const currentStock =
+    document.getElementById("currentStock");
+
+
+productSelect.addEventListener("change", function () {
+
+    const selectedOption =
+        productSelect.options[
+            productSelect.selectedIndex
+        ];
+
+
+    const stock =
+        selectedOption.getAttribute("data-stock");
+
+
+    if (stock !== null) {
+
+        currentStock.textContent =
+            stock + " units";
+
+    } else {
+
+        currentStock.textContent =
+            "Select a product";
+
+    }
+
+});
+
+</script>
+
+
+</body>
+
+</html>

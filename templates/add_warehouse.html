@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>WIMS - Add Warehouse</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='add_warehouse.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon">
+                🏢
+            </div>
+
+            <div>
+
+                <h2>WIMS</h2>
+
+                <p>Electronics Warehouse</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- MAIN MENU -->
+
+        <div class="menu-section">
+
+            <p class="menu-title">
+                MAIN MENU
+            </p>
+
+
+            <a href="/dashboard" class="menu-item">
+
+                <span class="menu-icon">▣</span>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="/inventory" class="menu-item">
+
+                <span class="menu-icon">📦</span>
+
+                <span>Inventory</span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <span class="menu-icon">💻</span>
+
+                <span>Electronic Devices</span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <span class="menu-icon">🛒</span>
+
+                <span>Orders</span>
+
+            </a>
+
+
+            <a href="/stock-movement" class="menu-item">
+
+                <span class="menu-icon">🔄</span>
+
+                <span>Stock Movement</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- MANAGEMENT -->
+
+        <div class="menu-section management">
+
+            <p class="menu-title">
+                MANAGEMENT
+            </p>
+
+
+            <a href="/warehouses" class="menu-item active">
+
+                <span class="menu-icon">🏭</span>
+
+                <span>Warehouses</span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <span class="menu-icon">📊</span>
+
+                <span>Reports</span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <span class="menu-icon">⚙️</span>
+
+                <span>Settings</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- LOGOUT -->
+
+        <div class="sidebar-bottom">
+
+            <a href="/logout" class="logout">
+
+                <span>🚪</span>
+
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div></div>
+
+
+            <div class="profile">
+
+                <div class="profile-info">
+
+                    <strong>
+                        {{ name }}
+                    </strong>
+
+                    <span>
+                        {{ role }}
+                    </span>
+
+                </div>
+
+
+                <div class="profile-circle">
+
+                    {{ name[0] }}
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= CONTENT ================= -->
+
+        <section class="content">
+
+
+            <!-- PAGE HEADING -->
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h1>
+                        Add Warehouse
+                    </h1>
+
+                    <p>
+                        Add a new warehouse location to your system.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= FORM PANEL ================= -->
+
+            <div class="panel add-warehouse-panel">
+
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            Warehouse Information
+                        </h2>
+
+                        <p>
+                            Enter the details of the new warehouse.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FORM -->
+
+                <form
+                    action="{{ url_for('add_warehouse') }}"
+                    method="POST">
+
+
+                    <!-- CSRF -->
+
+                    <input
+                        type="hidden"
+                        name="csrf_token"
+                        value="{{ csrf_token() }}">
+
+
+                    <div class="form-grid">
+
+
+                        <!-- WAREHOUSE NAME -->
+
+                        <div class="form-group">
+
+                            <label for="warehouse_name">
+                                Warehouse Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="warehouse_name"
+                                name="warehouse_name"
+                                placeholder="Enter warehouse name"
+                                required>
+
+                        </div>
+
+
+                        <!-- LOCATION -->
+
+                        <div class="form-group">
+
+                            <label for="location">
+                                Location
+                            </label>
+
+                            <input
+                                type="text"
+                                id="location"
+                                name="location"
+                                placeholder="Enter warehouse location"
+                                required>
+
+                        </div>
+
+
+                        <!-- MANAGER -->
+
+                        <div class="form-group">
+
+                            <label for="manager_name">
+                                Manager Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="manager_name"
+                                name="manager_name"
+                                placeholder="Enter manager name"
+                                required>
+
+                        </div>
+
+
+                        <!-- CONTACT -->
+
+                        <div class="form-group">
+
+                            <label for="contact_number">
+                                Contact Number
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="contact_number"
+                                name="contact_number"
+                                placeholder="Enter contact number"
+                                required>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="form-group">
+
+                            <label for="status">
+                                Status
+                            </label>
+
+                            <select
+                                id="status"
+                                name="status"
+                                required>
+
+                                <option value="Active">
+                                    Active
+                                </option>
+
+                                <option value="Inactive">
+                                    Inactive
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="form-buttons">
+
+
+                        <a
+                            href="{{ url_for('warehouses') }}"
+                            class="cancel-button">
+
+                            Cancel
+
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="save-button">
+
+                            Save Warehouse
+
+                        </button>
+
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WIMS - Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='dashboard.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon">
+                🏢
+            </div>
+
+            <div>
+                <h2>WIMS</h2>
+                <p>Electronics Warehouse</p>
+            </div>
+
+        </div>
+
+
+        <!-- ================= MAIN MENU ================= -->
+
+        <div class="menu-section">
+
+            <p class="menu-title">MAIN MENU</p>
+
+
+            <!-- DASHBOARD -->
+
+            <a href="/dashboard" class="menu-item active">
+
+                <span class="menu-icon">▣</span>
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <!-- INVENTORY -->
+
+            <a href="/inventory" class="menu-item">
+
+                <span class="menu-icon">📦</span>
+                <span>Inventory</span>
+
+            </a>
+
+
+           
+
+
+            <!-- ORDERS -->
+
+             
+<a href="{{ url_for('orders') }}"
+   class="menu-item">
+
+    <span class="menu-icon">🛒</span>
+    <span>Orders</span>
+
+</a>
+
+            <!-- STOCK MOVEMENT -->
+
+            
+            <a href="{{ url_for('stock_movement') }}"
+               class="menu-item">
+
+                 <span class="menu-icon">
+                  🔄
+                </span>
+
+                 <span>
+                    Stock Movement
+              </span>
+
+            </a>
+        </div>
+
+
+
+        <!-- ================= MANAGEMENT ================= -->
+
+        <div class="menu-section management">
+
+            <p class="menu-title">MANAGEMENT</p>
+
+
+            <!-- WAREHOUSES -->
+
+            <a href="{{ url_for('warehouses') }}" class="menu-item">
+
+              <span class="menu-icon">🏭</span>
+              <span>Warehouses</span>
+
+            </a>
+
+          
+
+            <!-- REPORTS -->
+
+<a href="{{ url_for('reports') }}" class="menu-item">
+
+    <span class="menu-icon">📊</span>
+    <span>Reports</span>
+
+</a>
+
+
+            <!-- SETTINGS -->
+
+           <!-- SETTINGS -->
+
+<a href="{{ url_for('settings') }}" class="menu-item">
+
+    <span class="menu-icon">⚙️</span>
+    <span>Settings</span>
+
+</a>
+
+        </div>
+
+
+
+        <!-- ================= LOGOUT ================= -->
+
+        <div class="sidebar-bottom">
+
+            <a href="/logout" class="logout">
+
+                <span>🚪</span>
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+
+        <!-- ================= TOP BAR ================= -->
+
+        <header class="topbar">
+
+            <div></div>
+
+
+            <div class="profile">
+
+                <div class="profile-info">
+
+                    <strong>{{ name }}</strong>
+
+                    <span>{{ role }}</span>
+
+                </div>
+
+
+                <div class="profile-circle">
+
+                    {{ name[0] }}
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ================= PAGE CONTENT ================= -->
+
+        <section class="content">
+
+
+            <!-- ================= HEADING ================= -->
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h1>Dashboard</h1>
+
+                    <p>
+                        Welcome back, {{ name }}.
+                        Here's what's happening
+                        in your warehouse today.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= STAT CARDS ================= -->
+
+            <div class="stats-grid">
+
+
+                <!-- TOTAL DEVICES -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                TOTAL DEVICES
+                            </p>
+
+                            <h2>{{ total_devices }}</h2>
+
+                            <span class="positive">
+                                Current inventory
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat-icon blue">
+                            📦
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- LOW STOCK -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                LOW STOCK
+                            </p>
+
+                            <h2>{{ low_stock }}</h2>
+
+                            <span class="warning">
+                                Needs attention
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat-icon orange">
+                            ⚠
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- OUT OF STOCK -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                OUT OF STOCK
+                            </p>
+
+                            <h2>{{ out_of_stock }}</h2>
+
+                            <span class="danger">
+                                Requires restocking
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat-icon red">
+                            ×
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PENDING ORDERS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+
+                            <p class="stat-title">
+                                PENDING ORDERS
+                            </p>
+
+                            <h2>0</h2>
+
+                            <span class="positive">
+                                No orders yet
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat-icon green">
+                            🛒
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= LOWER SECTION ================= -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- ================= RECENT INVENTORY ================= -->
+
+                <div class="panel recent-panel">
+
+                    <div class="panel-header">
+
+                        <h2>Recent Inventory</h2>
+
+                        <a href="/inventory">
+                            View all
+                        </a>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>DEVICE</th>
+                                    <th>CATEGORY</th>
+                                    <th>QUANTITY</th>
+                                    <th>STATUS</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                            {% for product in products %}
+
+                                <tr>
+
+                                    <td>
+                                        <strong>
+                                            {{ product.product_name }}
+                                        </strong>
+                                    </td>
+
+
+                                    <td>
+                                        {{ product.category }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ product.quantity }}
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if product.quantity == 0 %}
+
+                                            <span class="status out-stock">
+                                                Out of Stock
+                                            </span>
+
+                                        {% elif product.quantity <= product.minimum_stock %}
+
+                                            <span class="status low-stock">
+                                                Low Stock
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="status in-stock">
+                                                In Stock
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ================= DYNAMIC STOCK OVERVIEW ================= -->
+
+                <div class="panel stock-panel">
+
+                    <div class="panel-header">
+
+                        <h2>Stock Overview</h2>
+
+                    </div>
+
+
+                    <div class="stock-list">
+
+
+                        {% for item in stock_overview %}
+
+                        <div class="stock-item">
+
+                            <div class="stock-info">
+
+                                <span>
+                                    {{ item.category }}
+                                </span>
+
+                                <strong>
+                                    {{ item.percentage }}%
+                                </strong>
+
+                            </div>
+
+
+                            <!-- Progress bar -->
+
+                            <div class="progress">
+
+                                <div
+                                    class="progress-bar"
+                                    data-width="{{ item.percentage }}">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ================= DYNAMIC PROGRESS BAR SCRIPT ================= -->
+
+<script>
+
+    document.querySelectorAll(".progress-bar").forEach(function(bar) {
+
+        bar.style.width = bar.dataset.width + "%";
+
+    });
+
+</script>
+
+
+</body>
+
+</html>
